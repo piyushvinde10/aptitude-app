@@ -122,7 +122,7 @@ aptitude_app/
 
 ### 1. Clone the Repository
 ```bash
-git clone https://github.com/YOUR_USERNAME/aptitude-app.git
+git clone https://github.com/piyushvinde10/aptitude-app.git
 cd aptitude-app
 ```
 
