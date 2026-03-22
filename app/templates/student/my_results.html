@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card shadow">
+    <div class="card-header bg-dark text-white">
+        <h4 class="mb-0">📊 My All Results — {{ current_user.username }}</h4>
+    </div>
+    <div class="card-body">
+        {% if results %}
+        <table class="table table-hover table-striped">
+            <thead class="table-dark">
+                <tr>
+                    <th>#</th>
+                    <th>Score</th>
+                    <th>Total</th>
+                    <th>Percentage</th>
+                    <th>Grade</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for r in results %}
+                <tr>
+                    <td>{{ loop.index }}</td>
+                    <td>{{ r.score }}</td>
+                    <td>{{ r.total }}</td>
+                    <td>{{ ((r.score / r.total) * 100)|round(1) }}%</td>
+                    <td>
+                        {% set pct = (r.score / r.total) * 100 %}
+                        {% if pct >= 80 %}
+                            <span class="badge bg-success">Excellent</span>
+                        {% elif pct >= 60 %}
+                            <span class="badge bg-primary">Good</span>
+                        {% elif pct >= 40 %}
+                            <span class="badge bg-warning">Average</span>
+                        {% else %}
+                            <span class="badge bg-danger">Poor</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <div class="text-center py-4">
+            <h5>No results yet. Take a test first!</h5>
+            <a href="{{ url_for('student.take_test') }}" class="btn btn-primary mt-2">
+                Take Test
+            </a>
+        </div>
+        {% endif %}
+        <a href="{{ url_for('student.dashboard') }}" class="btn btn-outline-secondary mt-2">
+            ← Back to Dashboard
+        </a>
+    </div>
+</div>
+{% endblock %}

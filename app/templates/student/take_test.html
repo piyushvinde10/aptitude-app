@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card shadow">
+            <div class="card-header bg-primary text-white">
+                <h4 class="mb-0">📝 Aptitude Test</h4>
+                <small>Answer all questions carefully</small>
+            </div>
+            <div class="card-body">
+                {% if questions %}
+                <form method="POST">
+                    {% for q in questions %}
+                    <div class="card mb-3 border-left-primary">
+                        <div class="card-body">
+                            <h6 class="fw-bold">Q{{ loop.index }}. {{ q.question_text }}</h6>
+                            <div class="mt-2">
+                                <div class="form-check mb-2">
+                                    <input class="form-check-input" type="radio"
+                                        name="question_{{ q.id }}" value="a" required>
+                                    <label class="form-check-label">A) {{ q.option_a }}</label>
+                                </div>
+                                <div class="form-check mb-2">
+                                    <input class="form-check-input" type="radio"
+                                        name="question_{{ q.id }}" value="b">
+                                    <label class="form-check-label">B) {{ q.option_b }}</label>
+                                </div>
+                                <div class="form-check mb-2">
+                                    <input class="form-check-input" type="radio"
+                                        name="question_{{ q.id }}" value="c">
+                                    <label class="form-check-label">C) {{ q.option_c }}</label>
+                                </div>
+                                <div class="form-check mb-2">
+                                    <input class="form-check-input" type="radio"
+                                        name="question_{{ q.id }}" value="d">
+                                    <label class="form-check-label">D) {{ q.option_d }}</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-success btn-lg px-5">
+                            Submit Test ✅
+                        </button>
+                    </div>
+                </form>
+                {% else %}
+                <div class="text-center py-5">
+                    <h1>😕</h1>
+                    <h5>No questions available yet.</h5>
+                    <p class="text-muted">Please wait for the admin to add questions.</p>
+                    <a href="{{ url_for('student.dashboard') }}" class="btn btn-primary">
+                        Back to Dashboard
+                    </a>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

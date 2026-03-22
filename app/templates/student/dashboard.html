@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row">
+    <!-- Welcome Card -->
+    <div class="col-md-12 mb-4">
+        <div class="card bg-primary text-white shadow">
+            <div class="card-body">
+                <h3>Welcome, {{ current_user.username }}! 🎓</h3>
+                <p class="mb-0">Ready to test your aptitude? Click below to start!</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Start Test Card -->
+    <div class="col-md-6 mb-4">
+        <div class="card shadow h-100">
+            <div class="card-body text-center">
+                <h1>📝</h1>
+                <h4>Take Aptitude Test</h4>
+                <p class="text-muted">Answer all questions and submit to get your score.</p>
+                <a href="{{ url_for('student.take_test') }}" class="btn btn-primary">Start Test</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Results Summary Card -->
+    <div class="col-md-6 mb-4">
+        <div class="card shadow h-100">
+            <div class="card-body text-center">
+                <h1>📊</h1>
+                <h4>My Results</h4>
+                <p class="text-muted">Total Tests Taken: <strong>{{ results|length }}</strong></p>
+                {% if results %}
+                    {% set best = results|max(attribute='score') %}
+                    <p class="text-muted">Best Score: <strong>{{ best.score }}/{{ best.total }}</strong></p>
+                {% endif %}
+                <a href="{{ url_for('student.my_results') }}" class="btn btn-outline-primary">View All Results</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recent Results Table -->
+    {% if results %}
+    <div class="col-md-12">
+        <div class="card shadow">
+            <div class="card-header bg-dark text-white">
+                <h5 class="mb-0">📋 Recent Results</h5>
+            </div>
+            <div class="card-body">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Score</th>
+                            <th>Total</th>
+                            <th>Percentage</th>
+                            <th>Grade</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for r in results[-5:]|reverse %}
+                        <tr>
+                            <td>{{ loop.index }}</td>
+                            <td>{{ r.score }}</td>
+                            <td>{{ r.total }}</td>
+                            <td>{{ ((r.score / r.total) * 100)|round(1) }}%</td>
+                            <td>
+                                {% set pct = (r.score / r.total) * 100 %}
+                                {% if pct >= 80 %}
+                                    <span class="badge bg-success">Excellent</span>
+                                {% elif pct >= 60 %}
+                                    <span class="badge bg-primary">Good</span>
+                                {% elif pct >= 40 %}
+                                    <span class="badge bg-warning">Average</span>
+                                {% else %}
+                                    <span class="badge bg-danger">Poor</span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

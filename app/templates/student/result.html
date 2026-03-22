@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6 text-center">
+        <div class="card shadow">
+            <div class="card-body py-5">
+
+                {% set pct = ((score / total) * 100)|round(1) %}
+
+                {% if pct >= 80 %}
+                    <h1>🏆</h1>
+                    <h2 class="text-success">Excellent!</h2>
+                {% elif pct >= 60 %}
+                    <h1>👍</h1>
+                    <h2 class="text-primary">Good Job!</h2>
+                {% elif pct >= 40 %}
+                    <h1>😐</h1>
+                    <h2 class="text-warning">Average</h2>
+                {% else %}
+                    <h1>😔</h1>
+                    <h2 class="text-danger">Need Improvement</h2>
+                {% endif %}
+
+                <h3 class="mt-3">Your Score</h3>
+                <h1 class="display-1 fw-bold text-primary">{{ score }}<span class="fs-3 text-muted">/{{ total }}</span></h1>
+                <h4 class="text-muted">{{ pct }}%</h4>
+
+                <div class="progress mt-3 mb-4" style="height: 20px;">
+                    <div class="progress-bar
+                        {% if pct >= 80 %}bg-success
+                        {% elif pct >= 60 %}bg-primary
+                        {% elif pct >= 40 %}bg-warning
+                        {% else %}bg-danger{% endif %}"
+                        style="width: {{ pct }}%">{{ pct }}%
+                    </div>
+                </div>
+
+                <a href="{{ url_for('student.take_test') }}" class="btn btn-primary me-2">
+                    Retake Test
+                </a>
+                <a href="{{ url_for('student.dashboard') }}" class="btn btn-outline-secondary">
+                    Dashboard
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

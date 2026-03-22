@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card shadow">
+    <div class="card-header bg-success text-white">
+        <h4 class="mb-0">🎓 All Registered Students</h4>
+    </div>
+    <div class="card-body">
+        {% if students %}
+        <table class="table table-hover table-striped">
+            <thead class="table-dark">
+                <tr>
+                    <th>#</th>
+                    <th>Username</th>
+                    <th>Email</th>
+                    <th>Tests Taken</th>
+                    <th>Best Score</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for s in students %}
+                <tr>
+                    <td>{{ loop.index }}</td>
+                    <td>{{ s.username }}</td>
+                    <td>{{ s.email }}</td>
+                    <td>{{ s.results|length }}</td>
+                    <td>
+                        {% if s.results %}
+                            {% set best = s.results|max(attribute='score') %}
+                            {{ best.score }}/{{ best.total }}
+                        {% else %}
+                            <span class="text-muted">No tests yet</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <div class="text-center py-4">
+            <h5>No students registered yet.</h5>
+        </div>
+        {% endif %}
+        <a href="{{ url_for('admin.dashboard') }}" class="btn btn-outline-secondary mt-2">
+            ← Back to Dashboard
+        </a>
+    </div>
+</div>
+{% endblock %}
