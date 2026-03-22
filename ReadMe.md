@@ -273,4 +273,4 @@ Built with ❤️ using Flask, SQLAlchemy, and Bootstrap 5.
 
 ---
 
-> Made by **[Your Name]** · [GitHub](https://github.com/YOUR_USERNAME)
+> Made by **Piyush Vinde** · [GitHub](https://github.com/piyushvinde10)
